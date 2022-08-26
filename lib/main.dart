@@ -1,5 +1,7 @@
-import 'package:flutter/gestures.dart';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,10 +38,8 @@ class WeatherForecast extends StatelessWidget {
             icon: const Icon(Icons.menu),
           ),
         ),
-        body: Column(
-          children: [
-            _InterFace(),
-          ],
+        body: SingleChildScrollView(
+          child: _InterFace(),
         ),
       ),
     );
@@ -48,37 +48,41 @@ class WeatherForecast extends StatelessWidget {
 
 // ignore: non_constant_identifier_names
 Widget _InterFace() {
-  return SingleChildScrollView(
-    child: Column(
-      children: <Widget>[
-        const Divider(),
-        _EnterCityName(),
-        const Divider(
-          height: 30,
-        ),
-        _ZapOblt(),
-        _DayFriday(),
-        const Divider(height: 40),
-        _WeatherInFirstDay(),
-        const Divider(
-          height: 80,
-        ),
-        _WeightProcent(),
-        _TextWether(),
-        _TextWether2(),
-        const Divider(
-          height: 60,
-        ),
-        _SSevendays(),
-        Row(
-          children: <Widget>[
-            SizedBox(
-              child: _ListView(),
-            ),
-          ],
-        ),
-      ],
-    ),
+  return Column(
+    children: <Widget>[
+      const Divider(),
+      _EnterCityName(),
+      const Divider(
+        height: 30,
+      ),
+      _ZapOblt(),
+      _DayFriday(),
+      const Divider(height: 40),
+      _WeatherInFirstDay(),
+      const Divider(
+        height: 80,
+      ),
+      _WeightProcent(),
+      _TextWether(),
+      _TextWether2(),
+      const Divider(
+        height: 60,
+      ),
+      _SSevendays(),
+      forecastSevenDays(),
+      // Row(
+      //   //разместим по центру
+      //   crossAxisAlignment: CrossAxisAlignment.start,
+      //   mainAxisAlignment: MainAxisAlignment.center,
+      //   mainAxisSize: MainAxisSize.max,
+      //   children: <Widget>[
+      //     SizedBox(
+      //       // child: _ListView(),
+
+      //     ),
+      //   ],
+      // ),
+    ],
   );
 }
 
@@ -116,8 +120,7 @@ Row _ZapOblt() {
     children: const <Widget>[
       Text(
         'Grad Split (HRK)',
-        style: TextStyle(
-            color: Colors.white, fontSize: 30, fontWeight: FontWeight.w300),
+        style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.w300),
       ),
       Divider(),
     ],
@@ -153,17 +156,11 @@ Widget _WeatherInFirstDay() {
           children: const <Widget>[
             Text(
               '29°C',
-              style: TextStyle(
-                  fontSize: 40,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w200),
+              style: TextStyle(fontSize: 40, color: Colors.white, fontWeight: FontWeight.w200),
             ),
             Text(
               'Sunny day',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 17,
-                  fontWeight: FontWeight.w300),
+              style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w300),
             )
           ],
         ),
@@ -273,13 +270,78 @@ Widget _SSevendays() {
   );
 }
 
+Widget forecastSevenDays() {
+  return SizedBox(
+    width: 420,
+    height: 180,
+
+    ///Билдер сгенерирует нам указанное количество элементов, достаточно указать некоторые правила для него и не копипастить 7 раз одинаковый код
+    /// так что вот не плохой костыль
+    child: ListView.builder(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemCount: 7,
+        itemExtent: 200,
+        itemBuilder: (context, index) {
+          return Container(
+            height: 150,
+            width: 200,
+            margin: const EdgeInsets.all(10),
+            decoration: const BoxDecoration(color: Color.fromARGB(133, 158, 158, 158)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ListTile(
+                  title: Align(
+                    alignment: Alignment.topCenter,
+                    child: Text(
+                      DateFormat("EEEE").format(DateTime.now().add(Duration(days: index))),
+                      //прост лень делать каждый день как отдельный =)
+                      /// через пакет [intl] мы берём текущий день, и добавляем номер индекса (текущей карточки)
+                      /// и форматируем как день недели (локализованный)
+                      style: const TextStyle(color: Colors.white, fontSize: 25),
+                    ),
+                  ),
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    // Padding(
+                    //   padding: EdgeInsets.only(left: 33, bottom: 10),
+                    // ),
+                    const Icon(
+                      Icons.sunny,
+                      color: Colors.amber,
+                      size: 40,
+                    ),
+                    // Divider(
+                    //   height: 0.10,
+                    // ),
+
+                    /// каждый раз для каждого виджета сгенерируем случайную погоду
+                    Text(
+                      '${Random().nextInt(30)} gr',
+                      style: const TextStyle(color: Colors.white, fontSize: 30),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        }),
+  );
+}
+
 // ignore: non_constant_identifier_names
 Widget _ListView() {
   return Container(
     decoration: const BoxDecoration(),
     height: 150,
-    width: 270,
-    padding: const EdgeInsets.all(10),
+    width: 300,
+    // padding: const EdgeInsets.all(10),
     margin: const EdgeInsets.all(40),
     child: ListView(
       padding: const EdgeInsets.all(8),
@@ -292,9 +354,11 @@ Widget _ListView() {
       children: <Widget>[
         // ignore: avoid_unnecessary_containers
         Container(
-          decoration:
-              const BoxDecoration(color: Color.fromARGB(133, 158, 158, 158)),
+          decoration: const BoxDecoration(color: Color.fromARGB(133, 158, 158, 158)),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const ListTile(
                 title: Align(
@@ -306,28 +370,34 @@ Widget _ListView() {
                 ),
               ),
               Row(
-                children: const  <Widget>[
+                children: const <Widget>[
                   Padding(
                     padding: EdgeInsets.only(left: 33, bottom: 10),
-                  ), Icon(Icons.sunny, color: Colors.amber, size: 40,), Divider(height:0.10 ,),
+                  ),
+                  Icon(
+                    Icons.sunny,
+                    color: Colors.amber,
+                    size: 40,
+                  ),
+                  Divider(
+                    height: 0.10,
+                  ),
                   Text(
                     '29gr',
-                    style: TextStyle(color: Colors.white, fontSize: 30), 
+                    style: TextStyle(color: Colors.white, fontSize: 30),
                   ),
                 ],
               ),
-              
             ],
           ),
-        ),const Padding(padding: EdgeInsets.all(3)),
-        
+        ),
+        const Padding(padding: EdgeInsets.all(3)),
 
         // ignore: avoid_unnecessary_containers
 
         // ignore: avoid_unnecessary_containers
-         Container(
-          decoration:
-              const BoxDecoration(color: Color.fromARGB(133, 158, 158, 158)),
+        Container(
+          decoration: const BoxDecoration(color: Color.fromARGB(133, 158, 158, 158)),
           child: Column(
             children: [
               const ListTile(
@@ -340,23 +410,30 @@ Widget _ListView() {
                 ),
               ),
               Row(
-                children: const  <Widget>[
+                children: const <Widget>[
                   Padding(
                     padding: EdgeInsets.only(left: 33, bottom: 10),
-                  ), Icon(Icons.sunny, color: Colors.amber, size: 40,), Divider(height:0.10 ,),
+                  ),
+                  Icon(
+                    Icons.sunny,
+                    color: Colors.amber,
+                    size: 40,
+                  ),
+                  Divider(
+                    height: 0.10,
+                  ),
                   Text(
                     '31gr',
-                    style: TextStyle(color: Colors.white, fontSize: 30), 
+                    style: TextStyle(color: Colors.white, fontSize: 30),
                   ),
                 ],
               ),
-              
             ],
           ),
-        ),const Padding(padding: EdgeInsets.all(3)),
-         Container(
-          decoration:
-              const BoxDecoration(color: Color.fromARGB(133, 158, 158, 158)),
+        ),
+        const Padding(padding: EdgeInsets.all(3)),
+        Container(
+          decoration: const BoxDecoration(color: Color.fromARGB(133, 158, 158, 158)),
           child: Column(
             children: [
               const ListTile(
@@ -369,23 +446,30 @@ Widget _ListView() {
                 ),
               ),
               Row(
-                children: const  <Widget>[
+                children: const <Widget>[
                   Padding(
                     padding: EdgeInsets.only(left: 33, bottom: 10),
-                  ), Icon(Icons.sunny, color: Colors.amber, size: 40,), Divider(height:0.10 ,),
+                  ),
+                  Icon(
+                    Icons.sunny,
+                    color: Colors.amber,
+                    size: 40,
+                  ),
+                  Divider(
+                    height: 0.10,
+                  ),
                   Text(
                     '32gr',
-                    style: TextStyle(color: Colors.white, fontSize: 30), 
+                    style: TextStyle(color: Colors.white, fontSize: 30),
                   ),
                 ],
               ),
-              
             ],
           ),
-        ),const Padding(padding: EdgeInsets.all(3)),
-         Container(
-          decoration:
-              const BoxDecoration(color: Color.fromARGB(133, 158, 158, 158)),
+        ),
+        const Padding(padding: EdgeInsets.all(3)),
+        Container(
+          decoration: const BoxDecoration(color: Color.fromARGB(133, 158, 158, 158)),
           child: Column(
             children: [
               const ListTile(
@@ -398,23 +482,30 @@ Widget _ListView() {
                 ),
               ),
               Row(
-                children: const  <Widget>[
+                children: const <Widget>[
                   Padding(
                     padding: EdgeInsets.only(left: 33, bottom: 10),
-                  ), Icon(Icons.sunny, color: Colors.amber, size: 40,), Divider(height:0.10 ,),
+                  ),
+                  Icon(
+                    Icons.sunny,
+                    color: Colors.amber,
+                    size: 40,
+                  ),
+                  Divider(
+                    height: 0.10,
+                  ),
                   Text(
                     '30gr',
-                    style: TextStyle(color: Colors.white, fontSize: 30), 
+                    style: TextStyle(color: Colors.white, fontSize: 30),
                   ),
                 ],
               ),
-              
             ],
           ),
-        ),const Padding(padding: EdgeInsets.all(3)),
-         Container(
-          decoration:
-              const BoxDecoration(color: Color.fromARGB(133, 158, 158, 158)),
+        ),
+        const Padding(padding: EdgeInsets.all(3)),
+        Container(
+          decoration: const BoxDecoration(color: Color.fromARGB(133, 158, 158, 158)),
           child: Column(
             children: [
               const ListTile(
@@ -427,23 +518,30 @@ Widget _ListView() {
                 ),
               ),
               Row(
-                children: const  <Widget>[
+                children: const <Widget>[
                   Padding(
                     padding: EdgeInsets.only(left: 33, bottom: 10),
-                  ), Icon(Icons.sunny, color: Colors.amber, size: 40,), Divider(height:0.10 ,),
+                  ),
+                  Icon(
+                    Icons.sunny,
+                    color: Colors.amber,
+                    size: 40,
+                  ),
+                  Divider(
+                    height: 0.10,
+                  ),
                   Text(
                     '31gr',
-                    style: TextStyle(color: Colors.white, fontSize: 30), 
+                    style: TextStyle(color: Colors.white, fontSize: 30),
                   ),
                 ],
               ),
-              
             ],
           ),
-        ),const Padding(padding: EdgeInsets.all(3)),
-         Container(
-          decoration:
-              const BoxDecoration(color: Color.fromARGB(133, 158, 158, 158)),
+        ),
+        const Padding(padding: EdgeInsets.all(3)),
+        Container(
+          decoration: const BoxDecoration(color: Color.fromARGB(133, 158, 158, 158)),
           child: Column(
             children: [
               const ListTile(
@@ -456,18 +554,29 @@ Widget _ListView() {
                 ),
               ),
               Row(
-                children: const  <Widget>[
+                children: const <Widget>[
                   Padding(
                     padding: EdgeInsets.only(left: 33, bottom: 10),
-                  ), Icon(Icons.sunny, color: Colors.amber, size: 40,), Divider(height:0.10 ,),
+                  ),
+                  Icon(
+                    Icons.sunny,
+                    color: Colors.amber,
+                    size: 40,
+                  ),
+                  Divider(
+                    height: 0.10,
+                  ),
                   Text(
                     '32gr',
-                    style: TextStyle(color: Colors.white, fontSize: 30), 
+                    style: TextStyle(color: Colors.white, fontSize: 30),
                   ),
                 ],
               ),
-              
             ],
           ),
-        ),const Padding(padding: EdgeInsets.all(3)),
-],),);}
+        ),
+        const Padding(padding: EdgeInsets.all(3)),
+      ],
+    ),
+  );
+}
