@@ -1,10 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
 
 void main() {
   runApp(const MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -70,8 +69,14 @@ Widget _InterFace() {
         const Divider(
           height: 60,
         ),
-        //_Sdays(),
-        //_ListView(),
+        _SSevendays(),
+        Row(
+          children: <Widget>[
+            SizedBox(
+              child: _ListView(),
+            ),
+          ],
+        ),
       ],
     ),
   );
@@ -118,7 +123,6 @@ Row _ZapOblt() {
     ],
   );
 }
-
 
 // ignore: non_constant_identifier_names
 Row _DayFriday() {
@@ -198,7 +202,6 @@ Widget _WeightProcent() {
   );
 }
 
-
 // ignore: non_constant_identifier_names
 Widget _TextWether() {
   return Row(
@@ -270,60 +273,201 @@ Widget _SSevendays() {
   );
 }
 
-
 // ignore: non_constant_identifier_names
 Widget _ListView() {
-  return ListView(
-    
-    children: const <Widget>[
-      ListTile(
-        title: Text(
-          'Friday',
-          style: TextStyle(color: Colors.white, fontSize: 25),
-        ),
-        subtitle: Text('28'),
-        leading: Icon(Icons.sunny),
-      ),
-      ListTile(
-        title: Text(
-          'Saturday ',
-          style: TextStyle(color: Colors.white, fontSize: 25),
-        ),
-        subtitle: Text('31'),
-        leading: Icon(Icons.sunny),
-      ),
-      ListTile(
-        title: Text(
-          'Sunday ',
-          style: TextStyle(color: Colors.white, fontSize: 25),
-        ),
-        subtitle: Text('21'),
-        leading: Icon(Icons.sunny_snowing),
-      ),
-      ListTile(
-        title: Text(
-          'Mondey',
-          style: TextStyle(color: Colors.white, fontSize: 25),
-        ),
-        subtitle: Text('29'),
-        leading: Icon(Icons.sunny),
-      ),
-      ListTile(
-        title: Text(
-          'Tuesday',
-          style: TextStyle(color: Colors.white, fontSize: 25),
-        ),
-        subtitle: Text('34'),
-        leading: Icon(Icons.sunny),
-      ),
-      ListTile(
-        title: Text(
-          'Wednesday ',
-          style: TextStyle(color: Colors.white, fontSize: 25),
-        ),
-        subtitle: Text('31'),
-        leading: Icon(Icons.sunny),
-      ),
-    ],
-  );
-}
+  return Container(
+    decoration: const BoxDecoration(),
+    height: 150,
+    width: 270,
+    padding: const EdgeInsets.all(10),
+    margin: const EdgeInsets.all(40),
+    child: ListView(
+      padding: const EdgeInsets.all(8),
+      //shrinkWrap: true,
+      scrollDirection: Axis.horizontal,
+      itemExtent: 160,
+      //reverse: true,
+
+      // ignore: avoid_unnecessary_containers
+      children: <Widget>[
+        // ignore: avoid_unnecessary_containers
+        Container(
+          decoration:
+              const BoxDecoration(color: Color.fromARGB(133, 158, 158, 158)),
+          child: Column(
+            children: [
+              const ListTile(
+                title: Align(
+                  alignment: Alignment.topCenter,
+                  child: Text(
+                    'Friday',
+                    style: TextStyle(color: Colors.white, fontSize: 25),
+                  ),
+                ),
+              ),
+              Row(
+                children: const  <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(left: 33, bottom: 10),
+                  ), Icon(Icons.sunny, color: Colors.amber, size: 40,), Divider(height:0.10 ,),
+                  Text(
+                    '29gr',
+                    style: TextStyle(color: Colors.white, fontSize: 30), 
+                  ),
+                ],
+              ),
+              
+            ],
+          ),
+        ),const Padding(padding: EdgeInsets.all(3)),
+        
+
+        // ignore: avoid_unnecessary_containers
+
+        // ignore: avoid_unnecessary_containers
+         Container(
+          decoration:
+              const BoxDecoration(color: Color.fromARGB(133, 158, 158, 158)),
+          child: Column(
+            children: [
+              const ListTile(
+                title: Align(
+                  alignment: Alignment.topCenter,
+                  child: Text(
+                    'Saturday ',
+                    style: TextStyle(color: Colors.white, fontSize: 25),
+                  ),
+                ),
+              ),
+              Row(
+                children: const  <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(left: 33, bottom: 10),
+                  ), Icon(Icons.sunny, color: Colors.amber, size: 40,), Divider(height:0.10 ,),
+                  Text(
+                    '31gr',
+                    style: TextStyle(color: Colors.white, fontSize: 30), 
+                  ),
+                ],
+              ),
+              
+            ],
+          ),
+        ),const Padding(padding: EdgeInsets.all(3)),
+         Container(
+          decoration:
+              const BoxDecoration(color: Color.fromARGB(133, 158, 158, 158)),
+          child: Column(
+            children: [
+              const ListTile(
+                title: Align(
+                  alignment: Alignment.topCenter,
+                  child: Text(
+                    'Sunday ',
+                    style: TextStyle(color: Colors.white, fontSize: 25),
+                  ),
+                ),
+              ),
+              Row(
+                children: const  <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(left: 33, bottom: 10),
+                  ), Icon(Icons.sunny, color: Colors.amber, size: 40,), Divider(height:0.10 ,),
+                  Text(
+                    '32gr',
+                    style: TextStyle(color: Colors.white, fontSize: 30), 
+                  ),
+                ],
+              ),
+              
+            ],
+          ),
+        ),const Padding(padding: EdgeInsets.all(3)),
+         Container(
+          decoration:
+              const BoxDecoration(color: Color.fromARGB(133, 158, 158, 158)),
+          child: Column(
+            children: [
+              const ListTile(
+                title: Align(
+                  alignment: Alignment.topCenter,
+                  child: Text(
+                    'Mondey',
+                    style: TextStyle(color: Colors.white, fontSize: 25),
+                  ),
+                ),
+              ),
+              Row(
+                children: const  <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(left: 33, bottom: 10),
+                  ), Icon(Icons.sunny, color: Colors.amber, size: 40,), Divider(height:0.10 ,),
+                  Text(
+                    '30gr',
+                    style: TextStyle(color: Colors.white, fontSize: 30), 
+                  ),
+                ],
+              ),
+              
+            ],
+          ),
+        ),const Padding(padding: EdgeInsets.all(3)),
+         Container(
+          decoration:
+              const BoxDecoration(color: Color.fromARGB(133, 158, 158, 158)),
+          child: Column(
+            children: [
+              const ListTile(
+                title: Align(
+                  alignment: Alignment.topCenter,
+                  child: Text(
+                    'Tuesday ',
+                    style: TextStyle(color: Colors.white, fontSize: 25),
+                  ),
+                ),
+              ),
+              Row(
+                children: const  <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(left: 33, bottom: 10),
+                  ), Icon(Icons.sunny, color: Colors.amber, size: 40,), Divider(height:0.10 ,),
+                  Text(
+                    '31gr',
+                    style: TextStyle(color: Colors.white, fontSize: 30), 
+                  ),
+                ],
+              ),
+              
+            ],
+          ),
+        ),const Padding(padding: EdgeInsets.all(3)),
+         Container(
+          decoration:
+              const BoxDecoration(color: Color.fromARGB(133, 158, 158, 158)),
+          child: Column(
+            children: [
+              const ListTile(
+                title: Align(
+                  alignment: Alignment.topCenter,
+                  child: Text(
+                    'Wednesday ',
+                    style: TextStyle(color: Colors.white, fontSize: 25),
+                  ),
+                ),
+              ),
+              Row(
+                children: const  <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(left: 33, bottom: 10),
+                  ), Icon(Icons.sunny, color: Colors.amber, size: 40,), Divider(height:0.10 ,),
+                  Text(
+                    '32gr',
+                    style: TextStyle(color: Colors.white, fontSize: 30), 
+                  ),
+                ],
+              ),
+              
+            ],
+          ),
+        ),const Padding(padding: EdgeInsets.all(3)),
+],),);}
